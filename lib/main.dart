@@ -1,5 +1,7 @@
 
+import 'package:final_project_flutter/grade.dart';
 
+import 'package:final_project_flutter/grade.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -71,7 +73,11 @@ class _FirebaseState extends State<FirebaseDemo> {
     return SizedBox(
       child: ElevatedButton(
           onPressed: () async {
-            await databse.add({_gradetypeTextField.text: _newItemTextField.text}).then((value) => _newItemTextField.clear());
+            final String name = _gradetypeTextField.text;
+            final String score = _newItemTextField.text;
+            final gradeModel grade = gradeModel(type: name, score: score);
+
+            await databse.add(grade.toMap());
           },
           child: Text(
             'Add Data',
@@ -91,7 +97,7 @@ class _FirebaseState extends State<FirebaseDemo> {
           return ListView(
             children: snapshot.data.docs.map((document) {
               return Container(
-                child: Center(child: Text(document['quiz'])),
+                child: Center(child: Text(document['type'] + ": " + document['score']))
               );
             }).toList(),
           );
