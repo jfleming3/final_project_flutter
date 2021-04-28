@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -31,8 +33,10 @@ class FirebaseDemo extends StatefulWidget {
 class _FirebaseState extends State<FirebaseDemo> {
   final TextEditingController _newItemTextField = TextEditingController();
   final TextEditingController _gradetypeTextField = TextEditingController();
-  final CollectionReference itemCollectionDB = FirebaseFirestore.instance.collection('grades');
+  final CollectionReference databse = FirebaseFirestore.instance.collection('grades');
   List<String> itemList = [];
+
+
 
 
   Widget gradeTextFieldWidget() {
@@ -67,7 +71,7 @@ class _FirebaseState extends State<FirebaseDemo> {
     return SizedBox(
       child: ElevatedButton(
           onPressed: () async {
-            await itemCollectionDB.add({_gradetypeTextField.text: _newItemTextField.text}).then((value) => _newItemTextField.clear());
+            await databse.add({_gradetypeTextField.text: _newItemTextField.text}).then((value) => _newItemTextField.clear());
           },
           child: Text(
             'Add Data',
@@ -76,30 +80,25 @@ class _FirebaseState extends State<FirebaseDemo> {
     );
   }
 
+
+
+
   Widget itemListWidget() {
     return Expanded(
-        child:
-        StreamBuilder(stream: itemCollectionDB.snapshots(),
-            builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-              return ListView.builder(
-                  itemCount: snapshot.data.docs.length,
-                  itemBuilder: (BuildContext context, int position) {
-                    return Card(
-                        child: itemTileWidget(snapshot,position)
-                    );
-                  }
+      child:
+      StreamBuilder(stream: databse.snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          return ListView(
+            children: snapshot.data.docs.map((document) {
+              return Container(
+                child: Center(child: Text(document['quiz'])),
               );
-            })
+            }).toList(),
+          );
+        },
+      ),
     );
   }
-
-  Widget itemTileWidget(snapshot, position) {
-    return ListTile(
-
-      title: Text(snapshot.data.docs[position]['item_name']),
-
-        );
-      }
 
 
   @override
@@ -117,8 +116,10 @@ class _FirebaseState extends State<FirebaseDemo> {
             addtoDatabase(),
               itemListWidget()
           ],
+
       ),
       ),
+
     );
   }
 
