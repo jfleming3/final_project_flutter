@@ -95,7 +95,9 @@ class _FirebaseState extends State<FirebaseDemo> {
         children: [
               ElevatedButton(
                   onPressed: ()  {
-                    itemListWidget();
+                      setState(() {
+                       pressed = true;
+                      });
                   },
                   child: Text(
                     'Show all grades',
@@ -106,11 +108,10 @@ class _FirebaseState extends State<FirebaseDemo> {
                     final String name = _gradetypeTextField.text;
                     final String score = _newItemTextField.text;
                     final gradeModel grade = gradeModel(type: name, score: score);
-
                     await databse.add(grade.toMap());
                   },
                   child: Text(
-                    'Add Data',
+                    'Add Grade',
                     style: TextStyle(fontSize: 20),
                   )),
             ],
@@ -119,16 +120,17 @@ class _FirebaseState extends State<FirebaseDemo> {
   }
 
 
-
   Widget itemListWidget() {
     return Expanded(
       child:
       StreamBuilder(stream: databse.snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           return ListView(
-            children: snapshot.data.docs.map((document) {
+            children: snapshot.data.docs.map((document)
+            {
               return Container(
-                child: Center(child: Text(document['type'] + ": " + document['score']))
+                child: Center(child: Text(document['type'] + ": " + document['score']),
+                )
               );
             }).toList(),
           );
@@ -137,6 +139,7 @@ class _FirebaseState extends State<FirebaseDemo> {
     );
   }
 
+  bool pressed = false;
 
   @override
   Widget build(BuildContext context) {
@@ -157,9 +160,9 @@ class _FirebaseState extends State<FirebaseDemo> {
             gradeTextFieldWidget(),
             TextFieldWidget(),
               SizedBox(height: 40,),
-            //addtoDatabase(),
-              showgradeButton()
-          ],
+              showgradeButton(),
+              pressed ? itemListWidget() : SizedBox(),
+      ],
 
       ),
 
@@ -169,4 +172,33 @@ class _FirebaseState extends State<FirebaseDemo> {
   }
 
 
+
+
   }
+
+class Grades extends StatelessWidget{
+
+  final CollectionReference databse = FirebaseFirestore.instance.collection('grades');
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return Expanded(
+      child:
+      StreamBuilder(stream: databse.snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          return ListView(
+            children: snapshot.data.docs.map((document)
+            {
+              return Container(
+                  child: Center(child: Text(document['type'] + ": " + document['score']),
+                  )
+              );
+            }).toList(),
+          );
+        },
+      ),
+    );
+  }
+
+}
