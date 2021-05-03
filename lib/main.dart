@@ -135,14 +135,13 @@ class _FirebaseState extends State<FirebaseDemo> {
                 image: AssetImage("images/background.jpg"),
                 fit: BoxFit.cover)),
 
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        child: Column(
             children: [
             gradeTextFieldWidget(),
             TextFieldWidget(),
+              SizedBox(height: 40,),
             addtoDatabase(),
-            showgradeButton()
-
+              showgradeButton()
           ],
 
       ),
