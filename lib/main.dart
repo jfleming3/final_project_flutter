@@ -18,25 +18,22 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'FireStore',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: FirebaseDemo(),
+      home: FirebaseApp(),
     );
   }
 }
 
-class FirebaseDemo extends StatefulWidget {
+class FirebaseApp extends StatefulWidget {
   @override
   _FirebaseState createState() => _FirebaseState();
 }
 
-class _FirebaseState extends State<FirebaseDemo> {
+class _FirebaseState extends State<FirebaseApp> {
   final TextEditingController _newItemTextField = TextEditingController();
   final TextEditingController _gradetypeTextField = TextEditingController();
   final CollectionReference databse = FirebaseFirestore.instance.collection('grades');
-  List<String> itemList = [];
+  String buttontext = "Show all grades";
+  List<gradeModel> itemList = [];
 
 
 
@@ -71,22 +68,7 @@ class _FirebaseState extends State<FirebaseDemo> {
     );
   }
 
-  //Widget addtoDatabase(){
-    //return SizedBox(
-      //child: ElevatedButton(
-          //onPressed: () async {
-            //final String name = _gradetypeTextField.text;
-            //final String score = _newItemTextField.text;
-            //final gradeModel grade = gradeModel(type: name, score: score);
 
-            //await databse.add(grade.toMap());
-          //},
-          //child: Text(
-          //  'Add Data',
-        //    style: TextStyle(fontSize: 20),
-      //    )),
-    //);
-  //}
 
   Widget showgradeButton(){
     return Container(
@@ -95,12 +77,13 @@ class _FirebaseState extends State<FirebaseDemo> {
         children: [
               ElevatedButton(
                   onPressed: ()  {
-                      setState(() {
-                       pressed = true;
-                      });
+                    pressed ? setState(() {
+                       pressed = false;
+                       buttontext = "Show all grades";
+                      }) : setState((){pressed = true; buttontext = "Hide all grades";});
                   },
                   child: Text(
-                    'Show all grades',
+                    buttontext,
                     style: TextStyle(fontSize: 20),
                   )),
               ElevatedButton(
@@ -129,7 +112,9 @@ class _FirebaseState extends State<FirebaseDemo> {
             children: snapshot.data.docs.map((document)
             {
               return Container(
-                child: Center(child: Text(document['type'] + ": " + document['score']),
+                child: Center(
+
+                  child: Text(document['type'] + ": " + document['score']),
                 )
               );
             }).toList(),
@@ -154,17 +139,16 @@ class _FirebaseState extends State<FirebaseDemo> {
             image: DecorationImage(
                 image: AssetImage("images/background.jpg"),
                 fit: BoxFit.cover)),
-
         child: Column(
-            children: [
+          children: [
             gradeTextFieldWidget(),
             TextFieldWidget(),
-              SizedBox(height: 40,),
-              showgradeButton(),
-              pressed ? itemListWidget() : SizedBox(),
-      ],
+            SizedBox(height: 40,),
+            showgradeButton(),
+            pressed ? itemListWidget() : SizedBox(height: 1,),
+          ],
 
-      ),
+        ),
 
       ),
 
@@ -176,29 +160,17 @@ class _FirebaseState extends State<FirebaseDemo> {
 
   }
 
-class Grades extends StatelessWidget{
+class Grades {
 
   final CollectionReference databse = FirebaseFirestore.instance.collection('grades');
 
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return Expanded(
-      child:
-      StreamBuilder(stream: databse.snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          return ListView(
-            children: snapshot.data.docs.map((document)
-            {
-              return Container(
-                  child: Center(child: Text(document['type'] + ": " + document['score']),
-                  )
-              );
-            }).toList(),
-          );
-        },
-      ),
-    );
+
+  int getfinalgrade(String score){
+
+
+
   }
+  
+  
 
 }
