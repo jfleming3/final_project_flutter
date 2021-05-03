@@ -42,6 +42,7 @@ class _FirebaseState extends State<FirebaseDemo> {
 
 
   Widget gradeTextFieldWidget() {
+
     return SizedBox(
       width: MediaQuery.of(context).size.width / 2,
       child: TextField(
@@ -52,6 +53,7 @@ class _FirebaseState extends State<FirebaseDemo> {
           hintStyle: TextStyle(fontSize: 22, color: Colors.black),
         ),
       ),
+
     );
   }
 
@@ -86,6 +88,18 @@ class _FirebaseState extends State<FirebaseDemo> {
     );
   }
 
+  Widget showgradeButton(){
+    return SizedBox(
+      child: ElevatedButton(
+          onPressed: ()  {
+            itemListWidget();
+          },
+          child: Text(
+            'Show all grades',
+            style: TextStyle(fontSize: 20),
+          )),
+    );
+  }
 
 
 
@@ -115,20 +129,28 @@ class _FirebaseState extends State<FirebaseDemo> {
         title: Text("Personal Grade Book"),
       ),
       body: Container(
-        child: Column(
+        constraints: BoxConstraints.expand(),
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("images/background.jpg"),
+                fit: BoxFit.cover)),
+
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
             gradeTextFieldWidget(),
             TextFieldWidget(),
             addtoDatabase(),
-              itemListWidget()
+            showgradeButton()
+
           ],
 
       ),
+
       ),
 
     );
   }
-
 
 
   }
