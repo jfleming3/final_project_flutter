@@ -71,33 +71,50 @@ class _FirebaseState extends State<FirebaseDemo> {
     );
   }
 
-  Widget addtoDatabase(){
-    return SizedBox(
-      child: ElevatedButton(
-          onPressed: () async {
-            final String name = _gradetypeTextField.text;
-            final String score = _newItemTextField.text;
-            final gradeModel grade = gradeModel(type: name, score: score);
+  //Widget addtoDatabase(){
+    //return SizedBox(
+      //child: ElevatedButton(
+          //onPressed: () async {
+            //final String name = _gradetypeTextField.text;
+            //final String score = _newItemTextField.text;
+            //final gradeModel grade = gradeModel(type: name, score: score);
 
-            await databse.add(grade.toMap());
-          },
-          child: Text(
-            'Add Data',
-            style: TextStyle(fontSize: 20),
-          )),
-    );
-  }
+            //await databse.add(grade.toMap());
+          //},
+          //child: Text(
+          //  'Add Data',
+        //    style: TextStyle(fontSize: 20),
+      //    )),
+    //);
+  //}
 
   Widget showgradeButton(){
-    return SizedBox(
-      child: ElevatedButton(
-          onPressed: ()  {
-            itemListWidget();
-          },
-          child: Text(
-            'Show all grades',
-            style: TextStyle(fontSize: 20),
-          )),
+    return Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+              ElevatedButton(
+                  onPressed: ()  {
+                    itemListWidget();
+                  },
+                  child: Text(
+                    'Show all grades',
+                    style: TextStyle(fontSize: 20),
+                  )),
+              ElevatedButton(
+                  onPressed: () async {
+                    final String name = _gradetypeTextField.text;
+                    final String score = _newItemTextField.text;
+                    final gradeModel grade = gradeModel(type: name, score: score);
+
+                    await databse.add(grade.toMap());
+                  },
+                  child: Text(
+                    'Add Data',
+                    style: TextStyle(fontSize: 20),
+                  )),
+            ],
+      ),
     );
   }
 
@@ -140,7 +157,7 @@ class _FirebaseState extends State<FirebaseDemo> {
             gradeTextFieldWidget(),
             TextFieldWidget(),
               SizedBox(height: 40,),
-            addtoDatabase(),
+            //addtoDatabase(),
               showgradeButton()
           ],
 
