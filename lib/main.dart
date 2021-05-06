@@ -129,9 +129,12 @@ String grade = "CALC";
             {
               String grades = document['type'] + ": " + document['score'];
               itemList.add(document['score']);
+              Image icon = getcorrectIcon(document['score']);
               return Container(
                 child: ListTile(
-                  leading: Icon(Icons.arrow_forward_ios),
+
+                  leading: icon,
+
                   title: Text(grades, style: TextStyle(fontSize: 20),)
 
                 ) );
@@ -160,16 +163,30 @@ String grade = "CALC";
 
   }
 
-  Icon getcorrectIcon(String score){
+  Image getcorrectIcon(String score){
     int index = score.indexOf('/');
     String top = score.substring(0,index);
     String bot = score.substring(index + 1, score.length-1);
     int gradetop = int.parse(top);
     int gradebot = int.parse(bot);
-    double grade = (gradetop/gradebot);
+    double grade = (gradetop/gradebot) * 10;
 
-    if(grade >= 93){
-      return
+    if(grade >= 90){
+      return Image(image: AssetImage("images/A.png"),height: 100,width: 50,);
+   } else if(grade >= 88){                                              
+      return Image(image: AssetImage("images/B+.png"),height: 100,width: 50,);
+    } else if(grade >= 83){
+      return Image(image: AssetImage("images/B.png"),height: 100,width: 50,);
+    } else if(grade >= 78){
+      return Image(image: AssetImage("images/C+.png"),height: 100,width: 50,);
+    } else if(grade >=73){
+      return Image(image: AssetImage("images/C.png"),height: 100,width: 50,);
+    } else if(grade >= 70){
+      return Image(image: AssetImage("images/C-.png"),height: 100,width: 50,);
+    } else if(grade >= 67){
+      return Image(image: AssetImage("images/D+.png"),height: 100,width: 50,);
+    } else{
+      return Image(image: AssetImage("images/F.png"),height: 100,width: 50,);
     }
 
   }
