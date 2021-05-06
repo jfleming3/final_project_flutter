@@ -100,7 +100,7 @@ String grade = "CALC";
               ElevatedButton(
                 onPressed: (){
                   setState(() {
-                    grade = calcGrades(itemList).toString();
+                    grade = (calcGrades(itemList).toStringAsFixed(1) + '%');
                   });
                 },
                 child: Text(
@@ -153,12 +153,12 @@ String grade = "CALC";
     String last;
     for(var index in itemList){
       temp = index.indexOf('/');
-      first = index.substring(0,temp  );
+      first = index.substring(0,temp);
       last = index.substring(temp + 1 ,index.length-1);
       gradeTop+= int.parse(first);
       gradeBottom+= int.parse(last);
     }
-    return (gradeTop/gradeBottom);
+    return (gradeTop/gradeBottom) * 10;
 
   }
 
