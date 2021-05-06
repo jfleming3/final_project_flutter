@@ -130,18 +130,16 @@ String grade = "CALC";
               String grades = document['type'] + ": " + document['score'];
               itemList.add(document['score']);
               return Container(
-                child: Center(
-                  child: Text(
-                      grades,
-                      style: TextStyle(fontSize: 20),
-                )
-                )
-              );
+                child: ListTile(
+                  leading: Icon(Icons.arrow_forward_ios),
+                  title: Text(grades, style: TextStyle(fontSize: 20),)
+
+                ) );
             }).toList(),
           );
         },
-      ),
-    );
+       ),
+      );
   }
 
 
@@ -161,6 +159,21 @@ String grade = "CALC";
     return (gradeTop/gradeBottom) * 10;
 
   }
+
+  Icon getcorrectIcon(String score){
+    int index = score.indexOf('/');
+    String top = score.substring(0,index);
+    String bot = score.substring(index + 1, score.length-1);
+    int gradetop = int.parse(top);
+    int gradebot = int.parse(bot);
+    double grade = (gradetop/gradebot);
+
+    if(grade >= 93){
+      return
+    }
+
+  }
+
 
 
   bool pressed = false;
@@ -185,7 +198,6 @@ String grade = "CALC";
             SizedBox(height: 40,),
             showgradeButton(),
             pressed ? itemListWidget() : SizedBox(height: 1,),
-            for(var x in itemList) Text(x.toString())
           ],
 
         ),
