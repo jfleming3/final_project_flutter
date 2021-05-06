@@ -171,22 +171,26 @@ String grade = "CALC";
     int gradebot = int.parse(bot);
     double grade = (gradetop/gradebot) * 10;
 
-    if(grade >= 90){
-      return Image(image: AssetImage("images/A.png"),height: 100,width: 50,);
-   } else if(grade >= 88){                                              
-      return Image(image: AssetImage("images/B+.png"),height: 100,width: 50,);
+    if(grade >= 93){
+      return Image(image: AssetImage("images/A.png"),height: 80,width: 50,);
+   } else if(grade >= 90){
+      return Image(image: AssetImage("images/A-.png"),height: 80,width: 50,);
+    } else if(grade >= 88){
+      return Image(image: AssetImage("images/B+.png"),height: 80,width: 50,);
     } else if(grade >= 83){
-      return Image(image: AssetImage("images/B.png"),height: 100,width: 50,);
+      return Image(image: AssetImage("images/B.png"),height: 80,width: 50,);
+    } else if(grade >=80){
+      return Image(image: AssetImage("images/B-.png"),height: 80,width: 50,);
     } else if(grade >= 78){
-      return Image(image: AssetImage("images/C+.png"),height: 100,width: 50,);
-    } else if(grade >=73){
-      return Image(image: AssetImage("images/C.png"),height: 100,width: 50,);
+      return Image(image: AssetImage("images/C+.png"),height: 80,width: 50,);
+    } else if(grade >= 73){
+      return Image(image: AssetImage("images/C.png"),height: 80,width: 50,);
     } else if(grade >= 70){
-      return Image(image: AssetImage("images/C-.png"),height: 100,width: 50,);
-    } else if(grade >= 67){
-      return Image(image: AssetImage("images/D+.png"),height: 100,width: 50,);
+      return Image(image: AssetImage("images/C-.png"),height: 80,width: 50,);
+    } else if(grade >= 60){
+      return Image(image: AssetImage("images/D.png"),height: 80,width: 50,);
     } else{
-      return Image(image: AssetImage("images/F.png"),height: 100,width: 50,);
+      return Image(image: AssetImage("images/F.png"),height: 80,width: 50,);
     }
 
   }
