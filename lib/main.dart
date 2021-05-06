@@ -33,7 +33,7 @@ class _FirebaseState extends State<FirebaseApp> {
   final TextEditingController _gradetypeTextField = TextEditingController();
   final CollectionReference databse = FirebaseFirestore.instance.collection('grades');
   String buttontext = "Show all grades";
-  List<gradeModel> itemList = [];
+
 
 
 
@@ -69,7 +69,7 @@ class _FirebaseState extends State<FirebaseApp> {
   }
 
 
-
+String grade = "CALC";
   Widget showgradeButton(){
     return Container(
       child: Row(
@@ -97,11 +97,27 @@ class _FirebaseState extends State<FirebaseApp> {
                     'Add Grade',
                     style: TextStyle(fontSize: 20),
                   )),
+              ElevatedButton(
+                onPressed: (){
+                  setState(() {
+                    grade = calcGrades(itemList).toString();
+                  });
+                },
+                child: Text(
+                  grade,
+                  style: TextStyle(fontSize: 20),
+                ),
+              )
             ],
       ),
     );
   }
 
+
+
+
+
+  List<String> itemList = [];
 
   Widget itemListWidget() {
     return Expanded(
@@ -111,10 +127,14 @@ class _FirebaseState extends State<FirebaseApp> {
           return ListView(
             children: snapshot.data.docs.map((document)
             {
+              String grades = document['type'] + ": " + document['score'];
+              itemList.add(document['score']);
               return Container(
                 child: Center(
-
-                  child: Text(document['type'] + ": " + document['score']),
+                  child: Text(
+                      grades,
+                      style: TextStyle(fontSize: 20),
+                )
                 )
               );
             }).toList(),
@@ -123,6 +143,25 @@ class _FirebaseState extends State<FirebaseApp> {
       ),
     );
   }
+
+
+  double calcGrades(List<String> itemList){
+    int gradeTop= 0;
+    int gradeBottom = 0;
+    int temp;
+    String first;
+    String last;
+    for(var index in itemList){
+      temp = index.indexOf('/');
+      first = index.substring(0,temp  );
+      last = index.substring(temp + 1 ,index.length-1);
+      gradeTop+= int.parse(first);
+      gradeBottom+= int.parse(last);
+    }
+    return (gradeTop/gradeBottom);
+
+  }
+
 
   bool pressed = false;
 
@@ -146,6 +185,7 @@ class _FirebaseState extends State<FirebaseApp> {
             SizedBox(height: 40,),
             showgradeButton(),
             pressed ? itemListWidget() : SizedBox(height: 1,),
+            for(var x in itemList) Text(x.toString())
           ],
 
         ),
@@ -160,17 +200,4 @@ class _FirebaseState extends State<FirebaseApp> {
 
   }
 
-class Grades {
 
-  final CollectionReference databse = FirebaseFirestore.instance.collection('grades');
-
-
-  int getfinalgrade(String score){
-
-
-
-  }
-  
-  
-
-}
