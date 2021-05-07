@@ -71,7 +71,7 @@ class _FirebaseState extends State<FirebaseApp> {
   }
 
 
-String grade = "CALC";
+
   Widget showgradeButton(){
     return Container(
       child: Row(
@@ -99,18 +99,6 @@ String grade = "CALC";
                     'Add Grade',
                     style: TextStyle(fontSize: 20),
                   )),
-              ElevatedButton(
-                onPressed: (){
-                  setState(() {
-                    //grade = (calcGrades(itemList).toStringAsFixed(1) + '%');
-                    contentBox();
-                  });
-                },
-                child: Text(
-                  grade,
-                  style: TextStyle(fontSize: 20),
-                ),
-              )
             ],
       ),
     );
@@ -201,6 +189,7 @@ String grade = "CALC";
 
 
   bool pressed = false;
+  bool calcpressed = false;
 
   @override
   Widget build(BuildContext context) {
@@ -221,6 +210,36 @@ String grade = "CALC";
             TextFieldWidget(),
             SizedBox(height: 40,),
             showgradeButton(),
+            ElevatedButton(
+              onPressed: (){
+                String grade = calcGrades(itemList).toString();
+                showDialog(
+                    context: context,
+                    builder: (context){
+                      return Dialog(
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+                        elevation: 16,
+                        child: Container(
+                          height: 150,
+                          width: 150,
+                          child: Column(
+                            children: [
+                              SizedBox(height: 15,),
+                              Text('Final Calculated Grade',style: TextStyle(fontSize: 25,color: Colors.blue,fontWeight: FontWeight.bold),),
+                              SizedBox(height: 37,),
+                              Text(grade + '%', style: TextStyle(fontSize: 24,color: Colors.black,)),
+                            ],
+                          ),
+                        ),
+                      );
+                    });
+
+              },
+              child: Text(
+                "Calculate grade",
+                style: TextStyle(fontSize: 20),
+              ),
+            ),
             pressed ? itemListWidget() : SizedBox(height: 1,),
 
           ],
@@ -234,7 +253,7 @@ String grade = "CALC";
 
 
 
-  Widget contentBox(){
+  Widget contentBox(String grade){
     return Stack(
       children: <Widget>[
         Container(
@@ -255,17 +274,19 @@ String grade = "CALC";
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Text('Test',style: TextStyle(fontSize: 22,fontWeight: FontWeight.w600),),
+              Text('Final Calculated Grade',style: TextStyle(fontSize: 22,fontWeight: FontWeight.w600),),
               SizedBox(height: 15,),
-              Text("Test2",style: TextStyle(fontSize: 14),textAlign: TextAlign.center,),
+              Text(grade + "%",style: TextStyle(fontSize: 14),textAlign: TextAlign.center,),
               SizedBox(height: 22,),
               Align(
                 alignment: Alignment.bottomRight,
                 child: FlatButton(
                     onPressed: (){
-                      Navigator.of(context).pop();
+                    setState(() {
+                      calcpressed = false;
+                    });
                     },
-                    child: Text("Test3",style: TextStyle(fontSize: 18),)),
+                    child: Text("Close",style: TextStyle(fontSize: 18),)),
               ),
             ],
           ),
