@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'constants.dart';
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -100,7 +102,8 @@ String grade = "CALC";
               ElevatedButton(
                 onPressed: (){
                   setState(() {
-                    grade = (calcGrades(itemList).toStringAsFixed(1) + '%');
+                    //grade = (calcGrades(itemList).toStringAsFixed(1) + '%');
+                    contentBox();
                   });
                 },
                 child: Text(
@@ -219,6 +222,7 @@ String grade = "CALC";
             SizedBox(height: 40,),
             showgradeButton(),
             pressed ? itemListWidget() : SizedBox(height: 1,),
+
           ],
 
         ),
@@ -229,6 +233,58 @@ String grade = "CALC";
   }
 
 
+
+  Widget contentBox(){
+    return Stack(
+      children: <Widget>[
+        Container(
+          padding: EdgeInsets.only(left: Constants.padding,top: Constants.avatarRadius
+              + Constants.padding, right: Constants.padding,bottom: Constants.padding
+          ),
+          margin: EdgeInsets.only(top: Constants.avatarRadius),
+          decoration: BoxDecoration(
+              shape: BoxShape.rectangle,
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(Constants.padding),
+              boxShadow: [
+                BoxShadow(color: Colors.black,offset: Offset(0,10),
+                    blurRadius: 10
+                ),
+              ]
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text('Test',style: TextStyle(fontSize: 22,fontWeight: FontWeight.w600),),
+              SizedBox(height: 15,),
+              Text("Test2",style: TextStyle(fontSize: 14),textAlign: TextAlign.center,),
+              SizedBox(height: 22,),
+              Align(
+                alignment: Alignment.bottomRight,
+                child: FlatButton(
+                    onPressed: (){
+                      Navigator.of(context).pop();
+                    },
+                    child: Text("Test3",style: TextStyle(fontSize: 18),)),
+              ),
+            ],
+          ),
+        ),
+        Positioned(
+          left: Constants.padding,
+          right: Constants.padding,
+          child: CircleAvatar(
+            backgroundColor: Colors.transparent,
+            radius: Constants.avatarRadius,
+            child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(Constants.avatarRadius)),
+                child: Image.asset("images/A.png")
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 
 
   }
