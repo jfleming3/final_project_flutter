@@ -38,21 +38,35 @@ class _FirebaseState extends State<FirebaseApp> {
 
 
 
-
+String dropdownValue ="Quiz";
 
   Widget gradeTextFieldWidget() {
 
-    return SizedBox(
-      width: MediaQuery.of(context).size.width / 2,
-      child: TextField(
-        controller: _gradetypeTextField,
-        style: TextStyle(fontSize: 22, color: Colors.black),
-        decoration: InputDecoration(
-          hintText: "Grade type",
-          hintStyle: TextStyle(fontSize: 22, color: Colors.black),
-        ),
+    return DropdownButton<String>(
+      value: dropdownValue,
+      icon: Icon(Icons.arrow_drop_down),
+      iconSize: 30,
+      elevation: 200,
+      style: TextStyle(
+          color: Colors.black
       ),
-
+      underline: Container(
+        height: 2,
+        color: Colors.black,
+      ),
+      onChanged: (String  newValue) {
+        setState(() {
+          dropdownValue = newValue;
+        });
+      },
+      items: <String>['Quiz', 'Test', 'Assignment', 'Paper','Lab']
+          .map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(value),
+        );
+      })
+          .toList(),
     );
   }
 
@@ -90,7 +104,7 @@ class _FirebaseState extends State<FirebaseApp> {
                   )),
               ElevatedButton(
                   onPressed: () async {
-                    final String name = _gradetypeTextField.text;
+                    final String name = dropdownValue;
                     final String score = _newItemTextField.text;
                     final gradeModel grade = gradeModel(type: name, score: score);
                     await databse.add(grade.toMap());
@@ -210,7 +224,7 @@ class _FirebaseState extends State<FirebaseApp> {
             showgradeButton(),
             ElevatedButton(
               onPressed: (){
-                String grade = calcGrades(itemList).toString();
+                String grade = calcGrades(itemList).toStringAsFixed(1);
                 showDialog(
                     context: context,
                     builder: (context){
@@ -234,7 +248,7 @@ class _FirebaseState extends State<FirebaseApp> {
 
               },
               child: Text(
-                "Calculate grade",
+                "Calculate final grade",
                 style: TextStyle(fontSize: 20),
               ),
             ),
