@@ -77,8 +77,8 @@ String dropdownValue ="Quiz";
         controller: _newItemTextField,
         style: TextStyle(fontSize: 22, color: Colors.black),
         decoration: InputDecoration(
-          hintText: "Grade",
-          hintStyle: TextStyle(fontSize: 22, color: Colors.black),
+          hintText: "Score: 9/10",
+          hintStyle: TextStyle(fontSize: 22, color: Colors.grey),
         ),
       ),
     );
